@@ -14,3 +14,8 @@ aux_source_directory(./src/service SRC_LIST)
 add_executable(${PROJECT_NAME} ${SRC_LIST})
 target_link_libraries(${PROJECT_NAME} Qt5::Core Qt5::DBus KF5::ConfigCore ${LIBPROC_LIBRARY})
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 14)
+install(TARGETS ${PROJECT_NAME}
+  RUNTIME DESTINATION bin
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+)
