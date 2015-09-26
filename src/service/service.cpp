@@ -18,7 +18,6 @@
  * etc. if certain processes are invoked.
  */
 
-
 Service::Service(QObject *parent) : QObject(parent)
 {
     Q_FOREACH(QString process, Settings::instance().processes) {
