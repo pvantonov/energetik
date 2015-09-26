@@ -26,5 +26,4 @@ private:
     QScopedPointer<QDBusInterface> busInterface;
     QHash<QString, uint> cookies;
     QSet<QString> rules;
-    int interval = 1000;
 };

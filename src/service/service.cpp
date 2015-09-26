@@ -6,6 +6,8 @@
 
 #include <proc/readproc.h>
 
+#include "settings.hpp"
+
 #include "service.hpp"
 
 
@@ -19,7 +21,10 @@
 
 Service::Service(QObject *parent) : QObject(parent)
 {
-    this->rules.insert("retroarch");
+    Q_FOREACH(QString process, Settings::instance().processes) {
+        this->rules.insert(process);
+    }
+
     QDBusConnection bus = QDBusConnection::sessionBus();
     this->busInterface.reset(
         new QDBusInterface(
@@ -39,7 +44,7 @@ Service::Service(QObject *parent) : QObject(parent)
  */
 void Service::run()
 {
-    this->startTimer(this->interval);
+    this->startTimer(Settings::instance().interval);
 }
 
 /*!
@@ -75,12 +80,11 @@ void Service::inspectRunningProcesses()
     }
     closeproc(proc);
 
-    Q_FOREACH(QString process, foundProcesses){
+    Q_FOREACH(QString process, foundProcesses) {
         this->startSuppressPowerManagement(process);
     }
 
-    Q_FOREACH(QString process, this->cookies.keys())
-    {
+    Q_FOREACH(QString process, this->cookies.keys()) {
         if (!foundProcesses.contains(process))
             this->stopSuppressPowerManagement(process);
     }
@@ -128,9 +132,4 @@ void Service::stopSuppressPowerManagement(const QString &process)
 /*!
  * \var QSet<QString> Service::rules
  * List of processes that should cause inhibition of power management.
- */
-
-/*!
- * \var int Service::interval
- * Interval (in milliseconds) at which the service should actualize inhibition list.
  */
