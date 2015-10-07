@@ -2,9 +2,11 @@
 #include <QtCore/QHash>
 #include <QtCore/QObject>
 #include <QtCore/QScopedPointer>
-#include <QtCore/QSet>
+#include <QtCore/QSharedPointer>
 #include <QtCore/QString>
 #include <QtDBus/QDBusInterface>
+
+#include "base_inhibitor.hpp"
 
 
 class Service : public QObject
@@ -12,18 +14,15 @@ class Service : public QObject
     Q_OBJECT
 
 public:
-    Service(QObject *parent=nullptr);
+    Service();
     void run();
 
-protected:
-    void timerEvent(QTimerEvent *event);
+public slots:
+    void startSuppressPowerManagement(const QString &app, const QString &reason);
+    void stopSuppressPowerManagement(const QString &app);
 
 private:
-    void inspectRunningProcesses();
-    void startSuppressPowerManagement(const QString &process);
-    void stopSuppressPowerManagement(const QString &process);
-
+    QList<QSharedPointer<BaseInhibitor>> inhibitors;
     QScopedPointer<QDBusInterface> busInterface;
     QHash<QString, uint> cookies;
-    QSet<QString> rules;
 };

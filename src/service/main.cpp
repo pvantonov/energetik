@@ -1,15 +1,15 @@
-#include <QtCore/QCoreApplication>
+#include <QtGui/QGuiApplication>
 
 #include "service.hpp"
 
 
 int main(int argc, char** argv)
 {
-    QCoreApplication app(argc, argv);
+    QGuiApplication app(argc, argv);
     app.setApplicationName("energetiK");
     app.setOrganizationName("pantonov");
     app.setOrganizationDomain("pvantonov.ru");
-    app.setApplicationVersion("0.0.1");
+    app.setApplicationVersion("0.2.0");
 
     Service service;
     service.run();

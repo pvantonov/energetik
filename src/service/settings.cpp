@@ -8,18 +8,24 @@
 Settings::Settings() : KCoreConfigSkeleton("energetikrc")
 {
     this->setCurrentGroup("General");
-    this->addItemInt("Interval", this->interval, 1000);
+    this->addItemBool("InspectProcesses", this->inspectProcesses ,true);
 
-    this->setCurrentGroup("Inhibition");
-    this->addItemStringList("Processes", this->processes);
+    this->setCurrentGroup("ProcessInhibition");
+    this->addItemInt("Interval", this->inspecProcessesInterval, 1000);
+    this->addItemStringList("Processes", this->wantedProcesses);
 }
 
 /*!
- * \var QStringList Settings::processes
+ * \var QStringList Settings::inspectProcesses
+ * Show if the process inhibitor should be activated.
+ */
+
+/*!
+ * \var QStringList Settings::wantedProcesses
  * List of processes that should cause inhibition of power management.
  */
 
 /*!
- * \var int Settings::interval
- * Interval (in milliseconds) at which the service should actualize inhibition list.
+ * \var int Settings::inspecProcessesInterval
+ * Interval (in milliseconds) at which the process inhibitor should actualize inhibition list.
  */

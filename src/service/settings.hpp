@@ -11,8 +11,9 @@ public:
         return instance;
     }
 
-    int interval;
-    QStringList processes;
+    int inspecProcessesInterval;
+    bool inspectProcesses;
+    QStringList wantedProcesses;
 
 private:
     Settings();
