@@ -6,6 +6,7 @@
 
 #include "settings.hpp"
 #include "process_inhibitor.hpp"
+#include "fullscreen_inhibitor.hpp"
 
 #include "service.hpp"
 
@@ -45,6 +46,13 @@ void Service::run()
             )
         );
         this->inhibitors.append(processInhibitor);
+    }
+
+    if (Settings::instance().inspectFullscreen) {
+        QSharedPointer<BaseInhibitor> fullscreenInhibitor(
+            new FullscreenInhibitor()
+        );
+        this->inhibitors.append(fullscreenInhibitor);
     }
 
     foreach(QSharedPointer<BaseInhibitor> inhibitor, this->inhibitors) {

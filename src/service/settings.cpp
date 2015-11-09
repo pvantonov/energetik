@@ -8,7 +8,8 @@
 Settings::Settings() : KCoreConfigSkeleton("energetikrc")
 {
     this->setCurrentGroup("General");
-    this->addItemBool("InspectProcesses", this->inspectProcesses ,true);
+    this->addItemBool("InspectProcesses", this->inspectProcesses, true);
+    this->addItemBool("InspectFullscreen", this->inspectFullscreen, true);
 
     this->setCurrentGroup("ProcessInhibition");
     this->addItemInt("Interval", this->inspecProcessesInterval, 1000);
@@ -18,6 +19,11 @@ Settings::Settings() : KCoreConfigSkeleton("energetikrc")
 /*!
  * \var QStringList Settings::inspectProcesses
  * Show if the process inhibitor should be activated.
+ */
+
+/*!
+ * \var QStringList Settings::inspectFullscreen
+ * Show if the fullscreen inhibitor should be activated.
  */
 
 /*!

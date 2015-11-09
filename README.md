@@ -5,9 +5,11 @@ energetiK (Russian word for energy drink, pronounced [enɛrˈɡʲetʲɪk]) is KD
 To configure energetiK one should create `energeticrc` file in `.config` directory with following content
 ```
 [General]
-Interval=1000
+InspectProcesses=true
+InspectFullscreen=true
 
-[Inhibition]
+[ProcessInhibition]
+Interval=1000
 Processes=retroarch,vlc,...
 ```
-where `Interval` is interval at which the service should actualize inhibition list and `Processes` is list of processes that should cause inhibition of power management.
+where `InspectFullscreen` enables inhibition on switching of  any window in fullscreen mode and `InspectProcesses` enables inhibition on launch of certain process with `Interval` to be interval at which the service should actualize inhibition list and `Processes` to be list of processes that should cause inhibition of power management.

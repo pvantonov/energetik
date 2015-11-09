@@ -1,4 +1,8 @@
 #pragma once
+#include <QtCore/QSet>
+
+#include <KF5/KWindowSystem/KWindowSystem>
+
 #include "base_inhibitor.hpp"
 
 class FullscreenInhibitor : public BaseInhibitor
@@ -8,7 +12,9 @@ class FullscreenInhibitor : public BaseInhibitor
 public:
     FullscreenInhibitor();
 
-signals:
+private slots:
+    void onWindowChanged(WId winId, NET::Properties properties);
 
-public slots:
+private:
+    QSet<WId> fullscreenWindows;
 };

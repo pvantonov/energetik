@@ -13,6 +13,7 @@ public:
 
     int inspecProcessesInterval;
     bool inspectProcesses;
+    bool inspectFullscreen;
     QStringList wantedProcesses;
 
 private:
