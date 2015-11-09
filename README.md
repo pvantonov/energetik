@@ -2,7 +2,7 @@
 energetiK (Russian word for energy drink, pronounced [enɛrˈɡʲetʲɪk]) is KDE service to inhibit power management if certain conditions such as launch of specified process, using fullscreen windows, etc. are hold.
 
 ### Configuration
-To configure energetiK one should create `energeticrc` file in `.config` directory with following content
+To configure energetiK one should create `energetikrc` file in `.config` directory with following content
 ```
 [General]
 InspectProcesses=true
