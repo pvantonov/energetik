@@ -1,4 +1,5 @@
 #include <QtCore/QCoreApplication>
+#include <QtCore/QTimer>
 #include <QtGui/QGuiApplication>
 #include <QtDBus/QDBusConnection>
 #include <QtDBus/QDBusInterface>
@@ -21,7 +22,7 @@
 Service::Service()
 {
     QDBusConnection bus = QDBusConnection::sessionBus();
-    this->busInterface.reset(
+    this->powerManagementInterface.reset(
         new QDBusInterface(
             "org.freedesktop.PowerManagement.Inhibit",
             "/org/freedesktop/PowerManagement/Inhibit",
@@ -30,6 +31,19 @@ Service::Service()
             this
         )
     );
+    this->screensaverInterface.reset(
+        new QDBusInterface(
+            "org.freedesktop.ScreenSaver",
+            "/ScreenSaver",
+            "org.freedesktop.ScreenSaver",
+            bus,
+            this
+        )
+    );
+
+    QTimer *timer = new QTimer(this);
+    this->connect(timer, SIGNAL(timeout()), this, SLOT(simulateUserActivity()));
+    timer->start(10000);
 }
 
 /*!
@@ -76,10 +90,22 @@ void Service::run()
  */
 void Service::startSuppressPowerManagement(const QString &app, const QString &reason)
 {
-    if (this->cookies.contains(app))
-        return;
-    QDBusReply<uint> cookie = this->busInterface->call("Inhibit", app, reason);
-    this->cookies[app] = cookie;
+    if (!this->cookies.contains(app)){
+        QDBusReply<uint> cookie = this->powerManagementInterface->call("Inhibit", app, reason);
+        this->cookies[app] = cookie;
+    }
+}
+
+/*!
+ * \brief void Service::simulateUserActivity()
+ * Simulate user activity if powermanagement is inhibited.
+ */
+void Service::simulateUserActivity()
+{
+    QDBusReply<uint> idleTime = this->screensaverInterface->call("GetSessionIdleTime");
+    if(this->cookies.size() > 0 && idleTime.value() > 50){
+        this->screensaverInterface->call("SimulateUserActivity");
+    }
 }
 
 /*!
@@ -90,7 +116,7 @@ void Service::startSuppressPowerManagement(const QString &app, const QString &re
  */
 void Service::stopSuppressPowerManagement(const QString &app)
 {
-    this->busInterface->call("UnInhibit", this->cookies[app]);
+    this->powerManagementInterface->call("UnInhibit", this->cookies[app]);
     this->cookies.remove(app);
 }
 
