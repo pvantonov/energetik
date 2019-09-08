@@ -20,9 +20,11 @@ public:
 public slots:
     void startSuppressPowerManagement(const QString &app, const QString &reason);
     void stopSuppressPowerManagement(const QString &app);
+    void simulateUserActivity();
 
 private:
     QList<QSharedPointer<BaseInhibitor>> inhibitors;
-    QScopedPointer<QDBusInterface> busInterface;
+    QScopedPointer<QDBusInterface> powerManagementInterface;
+    QScopedPointer<QDBusInterface> screensaverInterface;
     QHash<QString, uint> cookies;
 };
