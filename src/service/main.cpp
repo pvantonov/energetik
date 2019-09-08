@@ -9,7 +9,7 @@ int main(int argc, char** argv)
     app.setApplicationName("energetiK");
     app.setOrganizationName("pantonov");
     app.setOrganizationDomain("pvantonov.ru");
-    app.setApplicationVersion("0.2.0");
+    app.setApplicationVersion("0.2.1");
 
     Service service;
     service.run();

@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1)
 cmake_policy(SET CMP0048 NEW)
-project(energetik VERSION 0.2.0)
+project(energetik VERSION 0.2.1)
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
